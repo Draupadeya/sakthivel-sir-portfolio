@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     '.vercel.app',
     '*.vercel.app',
     'sakthivel-sir-portfolio.vercel.app',
+    'phanindrakilambi.pythonanywhere.com',
 ]
 
 
