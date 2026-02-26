@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage CV - Admin</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .admin-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 80px 40px 40px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--primary-green);
+        }
+
+        .add-btn {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, #00cc33 100%);
+            color: black;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 65, 0.4);
+        }
+
+        .cv-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .cv-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .cv-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 65, 0.2);
+        }
+
+        .cv-info h3 {
+            color: var(--primary-green);
+            margin-bottom: 8px;
+        }
+
+        .cv-info p {
+            color: #999;
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+
+        .version-badge {
+            background: rgba(0, 255, 65, 0.1);
+            color: var(--primary-green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .cv-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid var(--primary-green);
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .btn-download {
+            background: rgba(0, 255, 65, 0.2);
+            color: var(--primary-green);
+        }
+
+        .btn-download:hover {
+            background: var(--primary-green);
+            color: black;
+        }
+
+        .btn-delete {
+            background: rgba(255, 50, 50, 0.2);
+            color: #ff3232;
+            border-color: #ff3232;
+        }
+
+        .btn-delete:hover {
+            background: #ff3232;
+            color: white;
+        }
+
+        .back-link {
+            color: var(--primary-green);
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 40px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 70px 20px 20px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .cv-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cv-info {
+                margin-bottom: 15px;
+            }
+
+            .cv-actions {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <div class="admin-container">
+        <a href="{% url 'admin_dashboard' %}" class="back-link">← Back to Dashboard</a>
+
+        <div class="page-header">
+            <h1 class="page-title">CV Management</h1>
+            <a href="{% url 'cv_add' %}" class="add-btn">+ Upload CV</a>
+        </div>
+
+        {% if messages %}
+        <div style="margin-bottom: 30px;">
+            {% for message in messages %}
+                <div style="background: rgba(0, 255, 65, 0.1); border-left: 4px solid var(--primary-green); padding: 15px; border-radius: 5px; color: var(--primary-green); margin-bottom: 10px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if cvs %}
+        <div class="cv-list">
+            {% for cv in cvs %}
+            <div class="cv-card">
+                <div class="cv-info">
+                    <h3>{{ cv.title }} <span class="version-badge">v{{ cv.version }}</span></h3>
+                    <p>📁 {{ cv.file.name }}</p>
+                    <p>📅 Updated: {{ cv.updated_at|date:"M d, Y" }}</p>
+                </div>
+                <div class="cv-actions">
+                    <a href="{{ cv.file.url }}" target="_blank" class="btn btn-download">📥 Download</a>
+                    <a href="{% url 'cv_delete' cv.id %}" class="btn btn-delete" onclick="return confirm('Are you sure?');">🗑️ Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📄</div>
+            <p>No CV files uploaded yet.</p>
+            <a href="{% url 'cv_add' %}" class="add-btn" style="margin-top: 20px;">+ Upload First CV</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

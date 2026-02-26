@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.id %}Edit{% else %}Add{% endif %} Award - Admin</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .admin-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 40px 40px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 30px;
+        }
+
+        .form-container {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: white;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="file"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            background: rgba(0, 255, 65, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 12px 15px;
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px dashed var(--primary-green);
+            border-radius: 8px;
+            color: var(--primary-green);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-label:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-green) 0%, #00cc33 100%);
+            color: black;
+            flex: 1;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 65, 0.4);
+        }
+
+        .btn-cancel {
+            background: rgba(255, 50, 50, 0.1);
+            color: #ff3232;
+            border: 1px solid #ff3232;
+            flex: 1;
+        }
+
+        .btn-cancel:hover {
+            background: #ff3232;
+            color: white;
+        }
+
+        .errorlist {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+            color: #ff3232;
+        }
+
+        .errorlist li {
+            padding: 8px 12px;
+            background: rgba(255, 50, 50, 0.1);
+            border-left: 3px solid #ff3232;
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+
+        .back-link {
+            color: var(--primary-green);
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 70px 20px 20px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .form-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <div class="admin-container">
+        <a href="{% url 'award_list' %}" class="back-link">← Back to Awards</a>
+
+        <h1 class="page-title">{% if form.instance.id %}Edit Award{% else %}Add New Award{% endif %}</h1>
+
+        <div class="form-container">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="id_title">Title *</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.title.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="help-text">Enter the title of the award</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_organization">Organization *</label>
+                    {{ form.organization }}
+                    {% if form.organization.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.organization.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="help-text">Name of the organization that gave this award</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_description">Description *</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.description.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="help-text">Describe this award and why it was received</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_date">Date *</label>
+                    {{ form.date }}
+                    {% if form.date.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.date.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="help-text">When was this award received?</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_certificate">Certificate (PDF or Image)</label>
+                    <label for="id_certificate" class="file-input-label">
+                        📁 Click to select certificate or drag & drop
+                    </label>
+                    {{ form.certificate }}
+                    {% if form.certificate.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.certificate.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="help-text">Optional: Upload certificate image or PDF</div>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-submit">
+                        {% if form.instance.id %}✏️ Update Award{% else %}➕ Add Award{% endif %}
+                    </button>
+                    <a href="{% url 'award_list' %}" class="btn btn-cancel">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Drag and drop file input
+        const fileInput = document.getElementById('id_certificate');
+        const fileLabel = document.querySelector('.file-input-label');
+
+        if (fileLabel && fileInput) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                fileLabel.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                fileLabel.addEventListener(eventName, () => {
+                    fileLabel.style.background = 'rgba(0, 255, 65, 0.15)';
+                    fileLabel.style.borderColor = 'var(--primary-green)';
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                fileLabel.addEventListener(eventName, () => {
+                    fileLabel.style.background = 'rgba(0, 255, 65, 0.05)';
+                    fileLabel.style.borderColor = 'var(--primary-green)';
+                }, false);
+            });
+
+            fileLabel.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+            }, false);
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    fileLabel.textContent = `✅ ${e.target.files[0].name}`;
+                }
+            });
+        }
+    </script>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

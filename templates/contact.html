@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me - Dr. S. Sakthivel | Associate Professor BME</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="nav-logo">PORTFOLIO</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'achievements' %}">Achievements</a></li>
+                <li><a href="{% url 'cv' %}">CV & Publications</a></li>
+                <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                <li><a href="{% url 'awards' %}">Awards</a></li>
+                <li><a href="{% url 'contact' %}" class="active">Contact Me</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <section class="page-section">
+            <h2 class="section-title">Contact Information</h2>
+
+            <div class="contact-container">
+                <div class="info-card" style="text-align: center;">
+                    <h3 style="color: var(--primary-green); margin-bottom: 20px;">📞 Get in Touch</h3>
+                    <p><strong>Name:</strong> Dr. S. Sakthivel</p>
+                    <p><strong>Personal Email:</strong> drsakthivelsankaran2024@gmail.com</p>
+                    <p><strong>Mobile:</strong> +91-7305161992</p>
+                    <p><strong>Designation:</strong> Associate Professor</p>
+                    <p><strong>Department:</strong> Biomedical Engineering</p>
+                    <p><strong>Institution:</strong> Kalasalingam Academy of Research and Education, Krishnankoil</p>
+                    <p><strong>Address:</strong> 10/3, INTUC Nagar, Rajapalayam</p>
+                    <p style="margin-top: 15px;"><strong>Languages:</strong> English, Tamil</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Watermark Footer -->
+    <footer style="position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(0, 0, 0, 0.8); border-top: 1px solid rgba(0, 255, 65, 0.3); text-align: center; font-size: 0.85rem; color: rgba(0, 255, 65, 0.7); backdrop-filter: blur(5px);">
+        <div style="max-width: 100%; word-wrap: break-word;">
+            <p style="margin: 0; padding: 5px 0;">© All rights are reserved to Sudharshana Grid 2026</p>
+            <p style="margin: 0; padding: 5px 0;">📱 Text us on 630230170</p>
+        </div>
+    </footer>
+
+    <!-- Add padding to body to prevent content overlap with footer -->
+    <style>
+        body {
+            padding-bottom: 120px;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 140px;
+            }
+        }
+    </style>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

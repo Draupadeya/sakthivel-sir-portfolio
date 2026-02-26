@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV & Publications - Dr. S. Sakthivel | Associate Professor BME</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .cv-content {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .cv-section {
+            margin-bottom: 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .cv-section h3 {
+            color: var(--primary-green);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cv-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+        }
+
+        .cv-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .cv-item-title {
+            color: var(--primary-green);
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+
+        .cv-item-sub {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            margin: 5px 0;
+        }
+
+        .cv-item-content {
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+        }
+
+        .qualification-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .qualification-table th,
+        .qualification-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+        }
+
+        .qualification-table th {
+            background: rgba(0, 255, 65, 0.1);
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        .qualification-table tr:hover {
+            background: rgba(0, 255, 65, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            color: var(--primary-green);
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            padding: 6px 12px;
+            margin: 5px 5px 5px 0;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .publication-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--primary-green);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .publication-item .journal {
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        .download-cv {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .download-cv a {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, #00cc33 100%);
+            color: black;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .download-cv a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 65, 0.4);
+        }
+
+        .edit-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+            vertical-align: middle;
+        }
+
+        .edit-btn:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+        }
+
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="nav-logo">PORTFOLIO</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'achievements' %}">Achievements</a></li>
+                <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                <li><a href="{% url 'awards' %}">Awards</a></li>
+                <li><a href="{% url 'contact' %}">Contact Me</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <section class="page-section">
+            <div class="title-wrapper">
+                <h2 class="section-title">CV & Professional Profile</h2>
+                {% if user.is_authenticated and user.is_staff %}
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="/admin/home/cvstatistics/" class="edit-btn" title="Edit statistics">📊 Stats</a>
+                    <a href="/admin/home/cveducation/" class="edit-btn" title="Edit education">🎓 Education</a>
+                    <a href="/admin/home/cvcurrentposition/" class="edit-btn" title="Edit current position">💼 Position</a>
+                    <a href="/admin/home/cvexperience/" class="edit-btn" title="Edit experience">📋 Experience</a>
+                    <a href="/admin/home/cvprofessionalmembership/" class="edit-btn" title="Edit memberships">🏛️ Memberships</a>
+                    <a href="/admin/home/cvpublication/" class="edit-btn" title="Edit publications">📚 Publications</a>
+                    <a href="/admin/home/cvpatent/" class="edit-btn" title="Edit patents">🔬 Patents</a>
+                    <a href="/admin/home/cvpersonaldetail/" class="edit-btn" title="Edit personal details">👤 Personal</a>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="cv-content">
+                <!-- Research Statistics -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-number">{{ cv_stats.google_scholar_citations|default:"239+" }}</div>
+                        <div class="stat-label">Google Scholar Citations</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">{{ cv_stats.h_index|default:"H-8" }}</div>
+                        <div class="stat-label">H-Index</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">{{ cv_stats.publications|default:"50+" }}</div>
+                        <div class="stat-label">Publications</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">{{ cv_stats.patents|default:"9+" }}</div>
+                        <div class="stat-label">Patents Filed</div>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="cv-section">
+                    <h3>🎓 Education</h3>
+                    <table class="qualification-table">
+                        <thead>
+                            <tr>
+                                <th>Degree</th>
+                                <th>Institution</th>
+                                <th>Year</th>
+                                <th>Specialization</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if cv_education %}
+                                {% for education in cv_education %}
+                            <tr>
+                                <td>{{ education.degree }}</td>
+                                <td>{{ education.institution }}</td>
+                                <td>{{ education.year }}</td>
+                                <td>{{ education.specialization }}</td>
+                            </tr>
+                                {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td>M.B.A</td>
+                                <td>Alagappa University</td>
+                                <td>2024</td>
+                                <td>Education Management</td>
+                            </tr>
+                            <tr>
+                                <td>Ph.D.</td>
+                                <td>Kalasalingam Academy of Research and Education</td>
+                                <td>September 2022</td>
+                                <td>Biomechanics, Biocomposite & Instrumentation</td>
+                            </tr>
+                            <tr>
+                                <td>M.Tech (Biomedical Engineering)</td>
+                                <td>Vellore Institute of Technology</td>
+                                <td>2015 (First Class)</td>
+                                <td>Medical Imaging Techniques</td>
+                            </tr>
+                            <tr>
+                                <td>B.E (Electronics & Communication Engg.)</td>
+                                <td>Adhiparasakthi Engineering College</td>
+                                <td>2013 (First Class)</td>
+                                <td>Digital Electronics</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Current Position -->
+                <div class="cv-section">
+                    <h3>💼 Current Position</h3>
+                    {% if cv_current_position %}
+                        {% for position in cv_current_position %}
+                    <div class="cv-item">
+                        <div class="cv-item-title">{{ position.title }}{% if position.department %}, {{ position.department }}{% endif %}</div>
+                        <div class="cv-item-sub">{{ position.institution }}</div>
+                        {% if position.from_date %}<div class="cv-item-sub">From: {{ position.from_date }}</div>{% endif %}
+                        <div class="cv-item-content">{{ position.description }}</div>
+                    </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="cv-item">
+                        <div class="cv-item-title">Associate Professor, Department of Biomedical Engineering</div>
+                        <div class="cv-item-sub">Kalasalingam Academy of Research and Education, Krishnankoil</div>
+                        <div class="cv-item-sub">From: 15-06-2023 (Till Now)</div>
+                        <div class="cv-item-content">Responsible for teaching biomedical and electronics subjects, laboratory practices, placement coordination, and conducting seminars and research activities.</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Professional Experience -->
+                <div class="cv-section">
+                    <h3>📋 Professional Experience</h3>
+                    {% if cv_experience %}
+                        {% for exp in cv_experience %}
+                    <div class="cv-item">
+                        <div class="cv-item-title">{{ exp.position }}</div>
+                        <div class="cv-item-sub">{{ exp.institution }}</div>
+                        <div class="cv-item-sub">{{ exp.from_date }}{% if exp.to_date %} to {{ exp.to_date }}{% endif %}</div>
+                        {% if exp.description %}<div class="cv-item-content">{{ exp.description }}</div>{% endif %}
+                    </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="cv-item">
+                        <div class="cv-item-title">Assistant Professor (Biomedical Engineering)</div>
+                        <div class="cv-item-sub">SRM Institute of Science and Technology, Ramapuram</div>
+                        <div class="cv-item-sub">25-07-2022 to 25-05-2023</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Assistant Professor (Biomedical Engineering)</div>
+                        <div class="cv-item-sub">Saveetha Engineering College</div>
+                        <div class="cv-item-sub">18-03-2022 to 09-07-2022</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Assistant Professor (Biomedical Engineering)</div>
+                        <div class="cv-item-sub">Kalasalingam Academy of Research and Education</div>
+                        <div class="cv-item-sub">20-12-2016 to 17-03-2022</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Summer Faculty Research Fellow</div>
+                        <div class="cv-item-sub">Indian Institute of Technology, New Delhi</div>
+                        <div class="cv-item-sub">Summer 2018 | Guidance: Prof. Sitikantha Roy, Department of Applied Mechanics</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Expertise & Skills -->
+                <div class="cv-section">
+                    <h3>🔧 Expertise & Research Focus</h3>
+                    <div class="cv-item-content">
+                        <strong>Primary Research Areas:</strong>
+                    </div>
+                    <div>
+                        <span class="skill-tag">Biomechanics</span>
+                        <span class="skill-tag">Biocomposites</span>
+                        <span class="skill-tag">Medical Imaging</span>
+                        <span class="skill-tag">Wearable Sensors</span>
+                        <span class="skill-tag">Tissue Engineering</span>
+                        <span class="skill-tag">IoT Healthcare</span>
+                        <span class="skill-tag">Prosthetic Design</span>
+                        <span class="skill-tag">Rehabilitation Devices</span>
+                        <span class="skill-tag">Biomedical Instrumentation</span>
+                        <span class="skill-tag">Smart Textiles</span>
+                    </div>
+                </div>
+
+                <!-- Professional Memberships -->
+                <div class="cv-section">
+                    <h3>🏛️ Professional Memberships</h3>
+                    {% if cv_memberships %}
+                    <ul style="list-style: none; padding: 0;">
+                        {% for member in cv_memberships %}
+                        <li style="margin-bottom: 8px;">✓ {{ member.membership_type }} - {{ member.organization }}{% if member.from_date %} ({{ member.from_date }}){% endif %}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 8px;">✓ Life Member - Indian Society for Technical Education (LMISTE)</li>
+                        <li style="margin-bottom: 8px;">✓ Life Member - Indian Society of Systems for Science and Engineering (LMISSE)</li>
+                        <li style="margin-bottom: 8px;">✓ Life Member - Biomedical Engineering Society of India (BMESI)</li>
+                        <li style="margin-bottom: 8px;">✓ Journal Reviewer - BioMed Research International</li>
+                        <li style="margin-bottom: 8px;">✓ Journal Reviewer - Computers in Biology and Medicine</li>
+                        <li style="margin-bottom: 8px;">✓ Journal Reviewer - Journal of Engineering Education Transformations</li>
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <!-- Recent Publications Sample -->
+                <div class="cv-section">
+                    <h3>📚 Recent Publications</h3>
+                    {% if cv_publications %}
+                        {% for pub in cv_publications %}
+                    <div class="publication-item">
+                        <span class="journal">{{ pub.journal }} ({{ pub.year }})</span><br>
+                        <strong>{{ pub.title }}</strong><br>
+                        <span style="color: rgba(255, 255, 255, 0.7);">{{ pub.authors }}</span>
+                        {% if pub.doi %}<br><a href="https://doi.org/{{ pub.doi }}" target="_blank" style="color: var(--primary-green);">DOI: {{ pub.doi }}</a>{% endif %}
+                    </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="publication-item">
+                        <span class="journal">Biomass Conversion and Biorefinery (2025)</span><br>
+                        "Enhancing natural fiber-based polymeric composites with biochar filler particles..." - Vol. 15, No. 9, IF: 3.5
+                    </div>
+                    <div class="publication-item">
+                        <span class="journal">International Journal of Ad Hoc and Ubiquitous Computing (2025)</span><br>
+                        "Design and development of healthcare data classification..." - Vol. 49, No. 2
+                    </div>
+                    <div class="publication-item">
+                        <span class="journal">Heliyon (2024)</span><br>
+                        "Development of artificial intelligence edge computing based wearable device..." - Vol. 10, Issue 8, SCI-Indexed, IF: 3.2
+                    </div>
+                    <div class="publication-item">
+                        <span class="journal">Polymer Composites, WILEY (2023)</span><br>
+                        "Chemical-treated sisal fiber reinforcement in red mud composites..." - SCI-Indexed, IF: 5.2
+                    </div>
+                    <div class="publication-item">
+                        <span class="journal">Journal of Natural Fibers (2022)</span><br>
+                        "Statistical and Experimental Analysis of Mechanical Properties..." - SCI-Indexed, IF: 3.507
+                    </div>
+                    {% endif %}
+                    <p style="margin-top: 15px; color: rgba(255, 255, 255, 0.7); font-style: italic;">
+                        Total Publications: 50+ | SCI/SCOPUS Indexed: 35+ | Conference Papers: 15+
+                    </p>
+                </div>
+
+                <!-- Patents -->
+                <div class="cv-section">
+                    <h3>🔬 Patents Filed (International)</h3>
+                    {% if cv_patents %}
+                        {% for patent in cv_patents %}
+                    <div class="cv-item">
+                        <div class="cv-item-title">{{ patent.filing_date }} | {{ patent.title }}</div>
+                        {% if patent.patent_number %}<div class="cv-item-sub">Patent Number: {{ patent.patent_number }}</div>{% endif %}
+                        {% if patent.description %}<div class="cv-item-content">{{ patent.description }}</div>{% endif %}
+                    </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="cv-item">
+                        <div class="cv-item-title">2021 | Design and development of muscle stimulation for Cervicalgia patient using wearable Coat</div>
+                        <div class="cv-item-sub">Patent Number: 202141007257</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Multi-objective wrist band to monitor blood glucose and body dehydration (Under review)</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Design and development of Automatic door opening system using body temperature detection (Under review)</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Leg angular movement measuring system for paralysis patients (Under review)</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Smart Hospital Waste Management System (Under review)</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Wearable obstacle detector with voice alert system for vision impaired persons (Under review)</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Personal Details -->
+                <div class="cv-section">
+                    <h3>👤 Personal Details</h3>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Date of Birth & Age:</div>
+                        <div class="cv-item-content">20.07.1992 | 32 years</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Marital Status:</div>
+                        <div class="cv-item-content">Married</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Languages Known:</div>
+                        <div class="cv-item-content">English (Fluent), Tamil (Fluent)</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-item-title">Contact:</div>
+                        <div class="cv-item-content">
+                            📧 drsakthivelsankaran2024@gmail.com<br>
+                            📱 +91-7305161992
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

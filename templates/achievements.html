@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements - Dr. S. Sakthivel | Associate Professor BME</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .edit-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+            vertical-align: middle;
+        }
+        .edit-btn:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+        }
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="nav-logo">PORTFOLIO</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'achievements' %}" class="active">Achievements</a></li>
+                <li><a href="{% url 'cv' %}">CV & Publications</a></li>
+                <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                <li><a href="{% url 'awards' %}">Awards</a></li>
+                <li><a href="{% url 'contact' %}">Contact Me</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <section class="page-section">
+            <div class="title-wrapper">
+                <h2 class="section-title">Achievements</h2>
+                {% if user.is_authenticated and user.is_staff %}
+                <a href="/admin/home/achievement/" class="edit-btn">✏️ Manage</a>
+                {% endif %}
+            </div>
+
+            <div class="achievements-grid">
+                {% if achievements %}
+                    {% for achievement in achievements %}
+                <div class="achievement-card">
+                    <h3>{{ achievement.title }}</h3>
+                    <p>{{ achievement.description }}</p>
+                    {% if achievement.date %}
+                    <small style="color: #999; display: block; margin-top: 10px;">{{ achievement.date|date:"Y" }}</small>
+                    {% endif %}
+                </div>
+                    {% endfor %}
+                {% else %}
+                <div class="achievement-card">
+                    <h3>Extensive Research Publications</h3>
+                    <p>50+ peer-reviewed publications in SCI/SCOPUS indexed journals including IEEE, Springer, BioMed Research International, Heliyon, and Elsevier. Research focus: Biomaterials, biocomposites, medical imaging, wearable sensors, and biomedical devices.</p>
+                </div>
+
+                <div class="achievement-card">
+                    <h3>Patents & Innovations</h3>
+                    <p>9+ International patents filed in biomedical engineering including smart wearable devices, automatic door systems, blood glucose monitoring, and smart hospital waste management systems.</p>
+                </div>
+
+                <div class="achievement-card">
+                    <h3>Research Funding & Grants</h3>
+                    <p>Awarded ₹1.91 lakhs International Travel Grant (ANRF-Young Scientists) for ICST2024, Sydney. Guided projects funded by DST-IEDC (₹1 Lakh), EDII-Innovation Voucher (₹2.23 Lakhs).</p>
+                </div>
+
+                <div class="achievement-card">
+                    <h3>Professional Academic Experience</h3>
+                    <p>Associate Professor (2023-Present) at KARE, Assistant Professor at SRM IST, Saveetha Engineering. IIT Delhi Summer Faculty Research Fellowship (2018). 8+ years of teaching and research experience.</p>
+                </div>
+
+                <div class="achievement-card">
+                    <h3>Research Expertise</h3>
+                    <p>Biomechanics, Biocomposites, Medical Imaging, Wearable Sensors, Tissue Engineering, IoT Healthcare, Prosthetic Design, Rehabilitation Devices, and Biomedical Instrumentation.</p>
+                </div>
+
+                <div class="achievement-card">
+                    <h3>Professional Memberships</h3>
+                    <p>Life Member - ISTE, ISSE, BMESI. Journal Reviewer for BioMed Research International, Computers in Biology and Medicine, and other leading journals. H-Index: 8 with 239+ citations.</p>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

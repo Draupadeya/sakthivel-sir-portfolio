@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Dr. S. Sakthivel | Associate Professor BME</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .edit-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+            vertical-align: middle;
+        }
+        .edit-btn:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+        }
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* View Counter Styles */
+        .view-counter-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .view-counter {
+            background: linear-gradient(135deg, rgba(0, 255, 65, 0.15), rgba(0, 200, 50, 0.1));
+            border: 2px solid var(--primary-green);
+            border-radius: 50px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--primary-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3), inset 0 0 15px rgba(0, 255, 65, 0.1);
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0, 255, 65, 0.3), inset 0 0 15px rgba(0, 255, 65, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(0, 255, 65, 0.6), inset 0 0 25px rgba(0, 255, 65, 0.2);
+            }
+        }
+
+        .view-icon {
+            font-size: 1.2rem;
+            animation: eyeBlink 3s ease-in-out infinite;
+        }
+
+        @keyframes eyeBlink {
+            0%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        .view-number {
+            font-size: 1.1rem;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .view-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .view-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .view-counter-container {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .view-counter {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .view-number {
+                min-width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="nav-logo">PORTFOLIO</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                <li><a href="{% url 'achievements' %}">Achievements</a></li>
+                <li><a href="{% url 'cv' %}">CV & Publications</a></li>
+                <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                <li><a href="{% url 'awards' %}">Awards</a></li>
+                <li><a href="{% url 'contact' %}">Contact Me</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <section class="home-section">
+            <!-- Profile Image - Left Side -->
+            <div class="profile-left">
+                <div class="profile-image">
+                    {% if profile and profile.profile_image %}
+                        <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}">
+                    {% else %}
+                        <img src="{% static 'images/make.png' %}" alt="Profile Image">
+                    {% endif %}
+                    <div class="avatar-platform"></div>
+                </div>
+            </div>
+
+            <!-- Content - Right Side -->
+            <div class="content-right">
+                {% if profile %}
+                    <div class="title-wrapper">
+                        <div>
+                            <h1>{{ profile.name|upper }}</h1>
+                            {% if profile.title %}
+                            <p class="title">{{ profile.title }}</p>
+                            {% endif %}
+                            {% if profile.department %}
+                            <p class="department">{{ profile.department }}</p>
+                            {% endif %}
+                        </div>
+                        {% if user.is_authenticated and user.is_staff %}
+                        <a href="/admin/home/profilecontent/" class="edit-btn">✏️ Manage</a>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="info-card">
+                        {% if profile.institution %}
+                        <p><strong>{{ profile.institution }}</strong></p>
+                        {% endif %}
+                        {% if profile.bio %}
+                        <p>{{ profile.bio }}</p>
+                        {% endif %}
+                        {% if cv_stats %}
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                            <p><strong>Google Scholar H-Index:</strong> {{ cv_stats.h_index }} | <strong>Citations:</strong> {{ cv_stats.google_scholar_citations }} | <strong>Publications:</strong> {{ cv_stats.publications }}</p>
+                            {% if user.is_authenticated and user.is_staff %}
+                            <a href="/admin/home/cvstatistics/" class="edit-btn" style="margin-left: 0;">✏️ Edit Stats</a>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <p><strong>Google Scholar H-Index:</strong> 8 | <strong>Citations:</strong> 239+ | <strong>Publications:</strong> 50+</p>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="title-wrapper">
+                        <div>
+                            <h1>Dr. S. SAKTHIVEL</h1>
+                            <p class="title">B.E., M.TECH (BME)., Ph.D., MBA</p>
+                            <p class="department">Associate Professor | Biomedical Engineering</p>
+                        </div>
+                        {% if user.is_authenticated and user.is_staff %}
+                        <a href="/admin/home/profilecontent/" class="edit-btn">✏️ Manage</a>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="info-card">
+                        <p><strong>Kalasalingam Academy of Research and Education</strong></p>
+                        <p>Passionate researcher and educator in Biomedical Engineering with expertise in biomechanics, biocomposites, and medical device instrumentation. Committed to advancing healthcare through innovative engineering solutions and mentoring the next generation of biomedical engineers.</p>
+                        {% if cv_stats %}
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                            <p><strong>Google Scholar H-Index:</strong> {{ cv_stats.h_index }} | <strong>Citations:</strong> {{ cv_stats.google_scholar_citations }} | <strong>Publications:</strong> {{ cv_stats.publications }}</p>
+                            {% if user.is_authenticated and user.is_staff %}
+                            <a href="/admin/home/cvstatistics/" class="edit-btn" style="margin-left: 0;">✏️ Edit Stats</a>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <p><strong>Google Scholar H-Index:</strong> 8 | <strong>Citations:</strong> 239+ | <strong>Publications:</strong> 50+</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <div class="status-badge">🟢 Open for Research Collaboration</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- View Counter -->
+    <div class="view-counter-container">
+        <div class="view-counter" id="viewCounter">
+            <span class="view-icon">👁️</span>
+            <div>
+                <div class="view-number" id="viewNumber">{{ page_view.view_count }}</div>
+                <div class="view-label">Views</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        // View Counter Animation
+        function createFloatingParticle() {
+            const container = document.getElementById('viewCounter');
+            const particle = document.createElement('div');
+            particle.className = 'view-particle';
+            
+            const rect = container.getBoundingClientRect();
+            const randomX = Math.random() * (rect.width * 0.8) - rect.width * 0.4;
+            const randomY = Math.random() * (rect.height * 0.8) - rect.height * 0.4;
+            
+            particle.style.setProperty('--tx', randomX + 'px');
+            particle.style.setProperty('--ty', randomY + 'px');
+            
+            particle.style.left = rect.width / 2 + 'px';
+            particle.style.top = rect.height / 2 + 'px';
+            
+            container.appendChild(particle);
+            particle.style.animation = `float-particle 1s ease-out forwards`;
+            
+            setTimeout(() => particle.remove(), 1000);
+        }
+
+        // Trigger particles periodically
+        setInterval(() => {
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => createFloatingParticle(), i * 100);
+            }
+        }, 3000);
+
+        // Animate number counting
+        const viewElement = document.getElementById('viewNumber');
+        const currentViews = parseInt(viewElement.textContent);
+        
+        if (currentViews > 0) {
+            const duration = 800;
+            const start = Math.max(currentViews - 10, 0);
+            const startTime = Date.now();
+            
+            const animate = () => {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const current = Math.floor(start + (currentViews - start) * progress);
+                viewElement.textContent = current;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            };
+            
+            animate();
+        }
+    </script>

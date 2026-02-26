@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awards - Dr. S. Sakthivel | Associate Professor BME</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* Image Preview Modal */
+        .image-preview-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            overflow-y: scroll;
+            animation: zoomIn 0.4s ease-in-out;
+            padding: 40px 20px;
+            padding-top: 150px;
+        }
+
+        /* Custom Scrollbar Styling */
+        .modal-content::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: rgba(0, 255, 65, 0.05);
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--primary-green);
+            border-radius: 10px;
+            border: 2px solid rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #00cc33;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+        }
+
+        /* Firefox Scrollbar */
+        .modal-content {
+            scrollbar-color: var(--primary-green) rgba(0, 255, 65, 0.05);
+            scrollbar-width: thin;
+        }
+
+        .modal-image {
+            width: auto;
+            max-width: 900px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0, 255, 65, 0.4);
+            border: 2px solid var(--primary-green);
+            margin: 30px 0;
+        }
+
+        .modal-title {
+            color: var(--primary-green);
+            margin-top: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 1.2rem;
+            max-width: 90%;
+        }
+
+        .close-modal {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            color: var(--primary-green);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2002;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 15px;
+            border-radius: 8px;
+        }
+
+        .close-modal:hover {
+            transform: scale(1.2) rotate(90deg);
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
+        }
+
+        /* Navigation Buttons */
+        .modal-nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 255, 65, 0.2);
+            border: 2px solid var(--primary-green);
+            color: var(--primary-green);
+            font-size: 30px;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            z-index: 2001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+
+        .modal-nav-button:hover {
+            background: rgba(0, 255, 65, 0.4);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+        }
+
+        .modal-nav-button:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .modal-nav-button.prev {
+            left: 20px;
+        }
+
+        .modal-nav-button.next {
+            right: 20px;
+        }
+
+        .modal-nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .modal-nav-button:disabled:hover {
+            background: rgba(0, 255, 65, 0.2);
+            transform: translateY(-50%);
+            box-shadow: none;
+        }
+
+        /* Award Item with Image Icon */
+        .award-item {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .award-content {
+            flex: 1;
+        }
+
+        .award-image-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 2px solid var(--primary-green);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            font-size: 1.5rem;
+        }
+
+        .award-image-icon:hover {
+            background: rgba(0, 255, 65, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+        }
+
+        .award-item h3 {
+            margin-bottom: 8px;
+        }
+
+        .award-item .award-year {
+            margin-bottom: 10px;
+        }
+
+        .award-item p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .award-item {
+                flex-direction: column;
+            }
+
+            .award-image-icon {
+                width: 50px;
+                height: 50px;
+            }
+
+            .close-modal {
+                top: 20px;
+                right: 20px;
+                font-size: 30px;
+            }
+
+            .modal-image {
+                max-height: 70vh;
+            }
+        }
+
+        .edit-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+            vertical-align: middle;
+        }
+
+        .edit-btn:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+        }
+
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="nav-logo">PORTFOLIO</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'achievements' %}">Achievements</a></li>
+                <li><a href="{% url 'cv' %}">CV & Publications</a></li>
+                <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                <li><a href="{% url 'awards' %}" class="active">Awards</a></li>
+                <li><a href="{% url 'contact' %}">Contact Me</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <section class="page-section">
+            <div class="title-wrapper">
+                <h2 class="section-title">Awards & Recognition</h2>
+                {% if user.is_authenticated and user.is_staff %}
+                <a href="/admin/home/award/" class="edit-btn">✏️ Manage</a>
+                {% endif %}
+            </div>
+
+            <div class="awards-container">
+                {% if awards %}
+                    {% for award in awards %}
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>{{ award.title }}</h3>
+                        <div class="award-year">{{ award.organization }}</div>
+                        <p>{{ award.description }}</p>
+                    </div>
+                    {% if award.certificate %}
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'award_{{ award.id }}', '{{ award.title }}')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                    {% else %}
+                    <div class="award-image-icon" title="No certificate uploaded">
+                        🏆
+                    </div>
+                    {% endif %}
+                </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Always show old default awards -->
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>International Travel Grant (ANRF – Young Scientists)</h3>
+                        <div class="award-year">Government of India</div>
+                        <p>Awarded ₹1.91 lakhs rupees by Government of India to present research at ICST2024, Sydney, Australia.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'travel_grant_2024', 'International Travel Grant 2024')" title="Click to view ICST photos" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Teaching Competency Award</h3>
+                        <div class="award-year">IQAC, Kalasalingam Academy of Research and Education</div>
+                        <p>For effective implementation of Problem and Project-Based Learning (PBL) in Sensors and Data Acquisition course for the academic year 2024-2025.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'teaching_award_2024', 'Teaching Competency Award 2024-2025')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Mentorship Award</h3>
+                        <div class="award-year">IQAC, Kalasalingam Academy of Research and Education</div>
+                        <p>For successfully guiding students in hackathon events for the academic year 2024-2025.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'mentorship_award_2024', 'Mentorship Award 2024-2025')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Young Scientist Award</h3>
+                        <div class="award-year">VD Good Technology Factory</div>
+                        <p>Received on 16-07-2021 for contributions to science and technology.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'young_scientist_2021', 'Young Scientist Award 2021')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Teaching Competence Award</h3>
+                        <div class="award-year">Kalasalingam Academy of Research and Education</div>
+                        <p>For the academic year 2018-2019. Recognized in January 2020 for excellence in teaching.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'teaching_award_2018', 'Teaching Competence Award 2018-2019')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Best UG Major Project Award</h3>
+                        <div class="award-year">Kalasalingam Academy of Research and Education</div>
+                        <p>For successfully guiding an outstanding undergraduate major project for the academic year 2018-2019. Recognized in January 2020.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'ug_project_award_2018', 'Best UG Major Project Award 2018-2019')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Competence Award for Assistant Wardenship</h3>
+                        <div class="award-year">Kalasalingam Academy of Research and Education</div>
+                        <p>For the academic year 2018-2019. Recognized in January 2020 for excellent student welfare initiatives.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'wardenship_award_2018', 'Competence Award for Assistant Wardenship 2018-2019')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Motivational Award - Fellowship Received from IIT Delhi</h3>
+                        <div class="award-year">Kalasalingam Academy of Research and Education</div>
+                        <p>Recognized in October 2018 for achievement in securing fellowship from IIT Delhi.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'fellowship_award_2018', 'Motivational Award - Fellowship Received from IIT Delhi')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Competence Award for Faculty Advisorship</h3>
+                        <div class="award-year">Kalasalingam Academy of Research and Education</div>
+                        <p>Recognized in October 2018 for effective faculty advisory and student guidance.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'faculty_advisorship_award_2018', 'Competence Award for Faculty Advisorship')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Motivational Award - IEDC Project</h3>
+                        <div class="award-year">Kalasalingam Academy of Research and Education</div>
+                        <p>Recognized in August 2018 for entrepreneurship and innovation through IEDC (Innovation and Entrepreneurship Development Centre) project.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'iedc_award_2018', 'Motivational Award - IEDC Project')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>University Level NSS Award</h3>
+                        <div class="award-year">Kalasalingam Academy of Research and Education</div>
+                        <p>Recognized in October 2017 for outstanding contribution to National Service Scheme (NSS) activities.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'nss_award_2017', 'University Level NSS Award')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Best Motivator Award 2016-2017</h3>
+                        <div class="award-year">Regional Blood Transfusion Centre, Meenakshi Mission Hospital and Research Centre, Madurai</div>
+                        <p>Recognized for exceptional motivation and dedication to blood donation and health awareness initiatives.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'motivator_award_2016', 'Best Motivator Award 2016-2017')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-content">
+                        <h3>Certificate of Appreciation</h3>
+                        <div class="award-year">Government Hospital, Virudhunagar</div>
+                        <p>Recognized in August 2018 for valuable contribution and support.</p>
+                    </div>
+                    <div class="award-image-icon" onclick="openImagePreview(event, 'certificate_appreciation_2018', 'Certificate of Appreciation')" title="Click to view certificate" style="cursor: pointer;">
+                        🏆
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Preview Modal -->
+            <div id="imageModal" class="image-preview-modal" onclick="closeImagePreview(event)">
+                <span class="close-modal" onclick="closeImagePreview(event)">&times;</span>
+                <button class="modal-nav-button prev" id="prevBtn" onclick="previousImage(event)" title="Previous image">❮</button>
+                <div class="modal-content" onclick="event.stopPropagation()">
+                    <img id="modalImage" class="modal-image" src="" alt="Award Image">
+                    <div id="modalTitle" class="modal-title"></div>
+                </div>
+                <button class="modal-nav-button next" id="nextBtn" onclick="nextImage(event)" title="Next image">❯</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        // Image Preview Functions - Multiple images per award
+        
+        // Dynamically build imageMap from database awards
+        const databaseImageMap = {};
+        const databaseTitleMap = {};
+        
+        {% if awards %}
+            {% for award in awards %}
+                {% if award.certificate %}
+        databaseImageMap['award_{{ award.id }}'] = ['{{ award.certificate.url }}'];
+        databaseTitleMap['award_{{ award.id }}'] = '{{ award.title }}';
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        
+        // Hardcoded awards imageMap
+        const hardcodedImageMap = {
+            'travel_grant_2024': [
+                '{% static "images/icst (1).png" %}',
+                '{% static "images/icst (2).png" %}',
+                '{% static "images/icst (3).png" %}',
+                '{% static "images/icst (4).png" %}',
+                '{% static "images/icst (5).png" %}'
+            ],
+            'teaching_award_2024': ['{% static "images/G3.png" %}'],
+            'mentorship_award_2024': ['{% static "images/G6.png" %}'],
+            'young_scientist_2021': ['{% static "images/vd good.png" %}'],
+            'teaching_award_2018': ['{% static "images/teaching competence2018.png" %}'],
+            'ug_project_award_2018': ['{% static "images/mentor2018.png" %}'],
+            'wardenship_award_2018': ['{% static "images/wardenship.png" %}'],
+            'fellowship_award_2018': ['{% static "images/fellowship.png" %}'],
+            'faculty_advisorship_award_2018': ['{% static "images/FA.png" %}'],
+            'iedc_award_2018': ['{% static "images/IEDC.png" %}'],
+            'nss_award_2017': ['{% static "images/NSS.png" %}'],
+            'motivator_award_2016': ['{% static "images/bd 1.png" %}'],
+            'certificate_appreciation_2018': ['{% static "images/bd 2.png" %}']
+        };
+        
+        // Merge both maps
+        const imageMap = Object.assign({}, hardcodedImageMap, databaseImageMap);
+        
+        // Hardcoded awards titleMap
+        const hardcodedTitleMap = {
+            'travel_grant_2024': 'International Travel Grant 2024',
+            'teaching_award_2024': 'Teaching Competency Award 2024-2025',
+            'mentorship_award_2024': 'Mentorship Award 2024-2025',
+            'young_scientist_2021': 'Young Scientist Award 2021',
+            'teaching_award_2018': 'Teaching Competence Award 2018-2019',
+            'ug_project_award_2018': 'Best UG Major Project Award 2018-2019',
+            'wardenship_award_2018': 'Competence Award for Assistant Wardenship 2018-2019',
+            'fellowship_award_2018': 'Motivational Award - Fellowship Received from IIT Delhi',
+            'faculty_advisorship_award_2018': 'Competence Award for Faculty Advisorship',
+            'iedc_award_2018': 'Motivational Award - IEDC Project',
+            'nss_award_2017': 'University Level NSS Award',
+            'motivator_award_2016': 'Best Motivator Award 2016-2017',
+            'certificate_appreciation_2018': 'Certificate of Appreciation'
+        };
+        
+        // Merge both title maps
+        const titleMap = Object.assign({}, hardcodedTitleMap, databaseTitleMap);
+
+        let currentAwardId = '';
+        let currentImageIndex = 0;
+
+        function openImagePreview(event, awardId, title) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const modal = document.getElementById('imageModal');
+            
+            if (imageMap[awardId]) {
+                currentAwardId = awardId;
+                currentImageIndex = 0;
+                updateModalDisplay();
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function updateModalDisplay() {
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            const currentImages = imageMap[currentAwardId];
+            
+            if (currentImages && currentImages[currentImageIndex]) {
+                modalImage.src = currentImages[currentImageIndex];
+                
+                // Show image count if multiple images
+                if (currentImages.length > 1) {
+                    modalTitle.textContent = titleMap[currentAwardId] + ' (' + (currentImageIndex + 1) + ' of ' + currentImages.length + ')';
+                } else {
+                    modalTitle.textContent = titleMap[currentAwardId];
+                }
+                
+                // Update button states
+                prevBtn.disabled = currentImageIndex === 0;
+                nextBtn.disabled = currentImageIndex === currentImages.length - 1;
+            }
+        }
+
+        function previousImage(event) {
+            event.stopPropagation();
+            const currentImages = imageMap[currentAwardId];
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                updateModalDisplay();
+            }
+        }
+
+        function nextImage(event) {
+            event.stopPropagation();
+            const currentImages = imageMap[currentAwardId];
+            if (currentImageIndex < currentImages.length - 1) {
+                currentImageIndex++;
+                updateModalDisplay();
+            }
+        }
+
+        function closeImagePreview(event) {
+            const modal = document.getElementById('imageModal');
+            
+            // Close if clicking the X button or clicking outside the modal content
+            if (event.target === modal || event.target.classList.contains('close-modal')) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal when Escape key is pressed
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('imageModal');
+                if (modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+            // Navigate with arrow keys
+            if (event.key === 'ArrowLeft') {
+                const modal = document.getElementById('imageModal');
+                if (modal.style.display === 'block') {
+                    previousImage(event);
+                }
+            }
+            if (event.key === 'ArrowRight') {
+                const modal = document.getElementById('imageModal');
+                if (modal.style.display === 'block') {
+                    nextImage(event);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

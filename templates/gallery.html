@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Dr. S. Sakthivel | Associate Professor BME</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .edit-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+            vertical-align: middle;
+        }
+        .edit-btn:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+        }
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="nav-logo">PORTFOLIO</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'achievements' %}">Achievements</a></li>
+                <li><a href="{% url 'cv' %}">CV & Publications</a></li>
+                <li><a href="{% url 'gallery' %}" class="active">Gallery</a></li>
+                <li><a href="{% url 'awards' %}">Awards</a></li>
+                <li><a href="{% url 'contact' %}">Contact Me</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <section class="page-section">
+            <div class="title-wrapper">
+                <h2 class="section-title">Gallery</h2>
+                {% if user.is_authenticated and user.is_staff %}
+                <a href="/admin/home/galleryimage/" class="edit-btn">✏️ Manage</a>
+                {% endif %}
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Manually Added Gallery Images -->
+                <div class="gallery-item">
+                    <img src="{% static 'images/G1.png' %}" alt="Best Motivator Award 2016-2017">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Best Motivator Award (2016–2017): Awarded by the Regional Blood Transfusion Centre, Meenakshi Mission Hospital and Research Centre (MMHRC)</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G2.png' %}" alt="Certificate of Appreciation">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Certificate of Appreciation | Government Hospital, Virudhunagar - Recognized for outstanding support and community engagement.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G3.png' %}" alt="Best Undergraduate Major Project Award">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Best Undergraduate Major Project Award (Jan 2020) Kalasalingam Academy of Research and Education, Krishnankoil</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G5.png' %}" alt="Excellence in Pedagogy">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Excellence in Pedagogy: Teaching Competency Award 2025 - Kalasalingam Academy of Research and Education - Awarded for pioneering PBL methodologies in Biomedical Engineering education.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G6.png' %}" alt="Faculty Advisorship Competence Award">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Faculty Advisorship Competence Award (2018–2019) - Kalasalingam Academy of Research and Education - Recognized for outstanding mentorship and student development leadership.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G7.png' %}" alt="Inauguration of the BMESI Society Event">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Inauguration of the BMESI Society Event - Kalasalingam Academy of Research and Education | 17.08.2024 - Dedicated to the advancement of Biomedical Engineering through professional networking and research collaboration.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G8.png' %}" alt="Organizing Secretary MEDVIOS 2K19">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Organizing Secretary | National Level Technical Symposium "MEDVIOS 2K19" - Kalasalingam Academy of Research and Education | 2019 - Successfully spearheaded a national-level platform for technical exchange and innovation in Biomedical Engineering.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G9.png' %}" alt="University Level NSS Award">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">University Level NSS Award for Outstanding Community Service - Kalasalingam Academy of Research and Education (KARE) - Recognized for exceptional leadership and commitment to social welfare initiatives through the National Service Scheme.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G10.png' %}" alt="IIT Delhi Summer Research Fellowship">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">IIT Delhi Summer Research Fellowship (2018) - Indian Institute of Technology, Delhi - Selected for a prestigious summer fellowship to conduct advanced research and collaborate with leading experts in the field.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G11.png' %}" alt="Clinical Visit Prosthetic and Orthotic Center">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Clinical Visit: Prosthetic and Orthotic Center, Delhi (2018) - Advanced Field Exposure in Assistive Technology - Observed state-of-the-art manufacturing and fitting processes for advanced prosthetic and orthotic devices.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G12.png' %}" alt="Hackathon Mentorship Award">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Hackathon Mentorship Award (2024–2025) - Kalasalingam Academy of Research and Education (KARE) - Recognized for excellence in guiding student teams toward success in high-stakes technical hackathons and innovation challenges.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G13.png' %}" alt="Research Incentive Award">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Research Incentive Award | Academic Excellence 2024 - Kalasalingam Academy of Research and Education - Honored for outstanding research performance and commitment to advancing technical knowledge.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G14.png' %}" alt="YUVA Paricaryaa">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Organizing Secretary | "YUVA Paricaryaa" State-Level NSS Event - Kalasalingam Academy of Research and Education | 2018 - Spearheaded the coordination of a two-day state-level symposium focused on youth empowerment and community service.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G15.png' %}" alt="Faculty Industrial Visit">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Faculty Industrial Visit: Sunshiv Technologies, Coimbatore (2017) - Advanced Exposure to Industrial Automation and Embedded Systems - Engaged in professional field exposure to bridge the gap between academic theory and current industry manufacturing practices.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G16.png' %}" alt="NSS Campus Environmental Sustainability">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">NSS Coordinator: Campus Environmental Sustainability Initiative - Kalasalingam Academy of Research and Education (KARE) - Spearheaded a large-scale tree plantation drive to promote ecological conservation and green campus initiatives.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G17.png' %}" alt="NSS Environmental Sustainability Initiative">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">NSS Coordinator: Campus Environmental Sustainability Initiative - Kalasalingam Academy of Research and Education (KARE) - Spearheaded a large-scale tree plantation drive to promote ecological conservation and green campus initiatives.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G18.png' %}" alt="Cancer Awareness and Prevention Programme">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Resource Person: Cancer Awareness and Prevention Programme - Kalasalingam Academy of Research and Education (KARE) - Delivered an expert session on early detection and healthcare innovations to promote community health awareness.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G19.png' %}" alt="Biosensors Laboratory Research">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Advanced Research in the Biosensors Laboratory - Kalasalingam Academy of Research and Education (KARE) - Conducting experimental work and data acquisition for the development of high-sensitivity diagnostic sensors.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G20.png' %}" alt="Best Academic Department Award">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Best Academic Department Award – Rank 1 - Internal Quality Assurance Cell (IQAC) | Kalasalingam Academy of Research and Education - Recognized by the IQAC for maintaining the highest standards in academic delivery, curriculum innovation, and student performance during the 2018 academic year.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G21.png' %}" alt="Assistant Wardenship Competence Award">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Competence Award for Excellence in Assistant Wardenship - Kalasalingam Academy of Research and Education (KARE) | 2018–2019 - Recognized for outstanding administrative leadership, student welfare management, and maintaining campus residential standards.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G22.png' %}" alt="Measurement and Instrumentation Book">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Author: "Measurement and Instrumentation" - Published by Scientific International Publishing House - ISBN: 978-93-5757-460-0 - A comprehensive academic resource covering fundamental and advanced concepts in measurement systems and industrial instrumentation.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G23.png' %}" alt="Niranjan Ultrasound Industrial Visit">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Faculty Industrial Visit: Niranjan Ultrasound Pvt. Ltd., Calicut - Advanced Diagnostic Imaging & Ultrasound Technology Exposure - Engaged in professional field exposure to observe the assembly, calibration, and clinical application of high-end ultrasound diagnostic systems.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G24.png' %}" alt="Research Incentive Award 2025">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Research Incentive Award | March 15, 2025 - Kalasalingam Academy of Research and Education (KARE) - Distinguished for outstanding contributions to high-impact journal publications and technical conference presentations within the academic year.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G34.png' %}" alt="DST-SERB Conference Event Coverage">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Organizing Secretary | DST-SERB Sponsored International Conference - Kalasalingam Academy of Research and Education | August 2–3, 2024 - Spearheaded the coordination of an international platform focused on cutting-edge technological interventions for Alzheimer's Disease, sponsored by the Government of India's SERB.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G35.png' %}" alt="DST-SERB International Platform">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Organizing Secretary | DST-SERB Sponsored International Conference - Kalasalingam Academy of Research and Education | August 2–3, 2024 - Spearheaded the coordination of an international platform focused on cutting-edge technological interventions for Alzheimer's Disease, sponsored by the Government of India's SERB.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G36.png' %}" alt="Alzheimer's Technology Conference">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Organizing Secretary | DST-SERB Sponsored International Conference - Kalasalingam Academy of Research and Education | August 2–3, 2024 - Spearheaded the coordination of an international platform focused on cutting-edge technological interventions for Alzheimer's Disease, sponsored by the Government of India's SERB.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G25.png' %}" alt="DST-SERB International Conference">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Organizing Secretary | DST-SERB Sponsored International Conference - Kalasalingam Academy of Research and Education | August 2–3, 2024 - Spearheaded the coordination of an international platform focused on cutting-edge technological interventions for Alzheimer's Disease, sponsored by the Government of India's SERB.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G26.png' %}" alt="Club Events Coordinator Award">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Coordinator Award for Excellence in Club Events - Student Affairs Office | Kalasalingam Academy of Research and Education (KARE) - Recognized by the Office of Student Affairs for outstanding leadership, event management, and fostering a vibrant campus culture through diverse student-led initiatives.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G27.png' %}" alt="Research Incentive Award for Academic Excellence">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Research Incentive Award for Academic Excellence - Management of Kalasalingam Academy of Research and Education (KARE) - Recognized by the university management for consistent contributions to the institution's research output and scholarly profile.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G28.png' %}" alt="IQAC Departmental Coordinator Certificate">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Certificate of Appreciation: IQAC Departmental Coordinator - Internal Quality Assurance Cell (IQAC) | Kalasalingam Academy of Research and Education - Recognized for exceptional service in managing institutional quality benchmarks and ensuring academic excellence across departmental operations.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G29.png' %}" alt="SPARKZ 2025 National Cultural Fest">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">SPARKZ 2025 National Cultural Fest - Kalasalingam Academy of Research and Education (KARE) - Certificate of Appreciation: Recognized for instrumental contributions to the planning and successful execution of one of the university's largest national-level cultural events.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G30.png' %}" alt="3D Bioprinting Hands-on Training">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Organizing Lead: 3D Bioprinting Hands-on Training & Hackathon - Collaborator: Atheenapandian Pvt. Ltd. | February 17–18, 2024 - Spearheaded a two-day intensive program on "Developing Human Organs through 3-D Printing Technology," integrating industrial expertise with academic innovation.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G31.png' %}" alt="3D Bioprinting Hackathon Event">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Organizing Lead: 3D Bioprinting Hands-on Training & Hackathon - Collaborator: Atheenapandian Pvt. Ltd. | February 17–18, 2024 - Spearheaded a two-day intensive program on "Developing Human Organs through 3-D Printing Technology," integrating industrial expertise with academic innovation.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G32.png' %}" alt="IoT Project Competition II Prize">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Faculty Mentor: University-Level IoT Project Competition (II Prize) - Awarded by Department of ECE, Kalasalingam Academy of Research and Education - Guided student C. Logeshwaran in developing a "Lab Environment Monitoring System," which secured the second prize and a cash reward for technical innovation.</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="{% static 'images/G33.png' %}" alt="IoT Project Award Ceremony">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">Faculty Mentor: University-Level IoT Project Competition (II Prize) - Awarded by Department of ECE, Kalasalingam Academy of Research and Education - Guided student C. Logeshwaran in developing a "Lab Environment Monitoring System," which secured the second prize and a cash reward for technical innovation.</div>
+                    </div>
+                </div>
+
+                <!-- Database Gallery Images (Added via Django Admin) -->
+                {% if gallery_images %}
+                    {% for image in gallery_images %}
+                <div class="gallery-item">
+                    <img src="{{ image.image.url }}" alt="{{ image.title }}">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-text">{{ image.description }}</div>
+                    </div>
+                </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <!-- Full-Screen Gallery Modal -->
+    <div id="galleryModal" class="gallery-modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <img id="modalImage" src="" alt="Gallery Image">
+            <div class="modal-caption" id="modalCaption"></div>
+            <button class="modal-nav modal-prev" title="Previous">&#10094;</button>
+            <button class="modal-nav modal-next" title="Next">&#10095;</button>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

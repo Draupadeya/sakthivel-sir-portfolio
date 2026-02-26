@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Portfolio</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 40px 40px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .admin-title {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            letter-spacing: 2px;
+        }
+
+        .logout-btn {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, #00cc33 100%);
+            color: black;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 65, 0.4);
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .admin-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .admin-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 255, 65, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+        }
+
+        .card-count {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            background: rgba(0, 255, 65, 0.2);
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--primary-green);
+            color: black;
+        }
+
+        .btn-primary {
+            background: var(--primary-green);
+            color: black;
+        }
+
+        .messages {
+            margin-bottom: 30px;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 4px solid;
+            margin-bottom: 10px;
+        }
+
+        .alert-success {
+            background: rgba(0, 255, 65, 0.1);
+            border-left-color: var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        .quick-access {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .quick-access h3 {
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .quick-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .quick-btn {
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(0, 255, 65, 0.1) 0%, rgba(0, 255, 65, 0.05) 100%);
+            border: 1px solid var(--primary-green);
+            border-radius: 10px;
+            color: var(--primary-green);
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .quick-btn:hover {
+            background: linear-gradient(135deg, var(--primary-green) 0%, #00cc33 100%);
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1 class="admin-title">Admin Dashboard</h1>
+            <a href="{% url 'admin_logout' %}" class="logout-btn">Logout</a>
+        </div>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="admin-grid">
+            <div class="admin-card">
+                <h3 class="card-title">Gallery</h3>
+                <div class="card-count">{{ gallery_count }}</div>
+                <div class="card-buttons">
+                    <a href="{% url 'gallery_list' %}" class="btn">View</a>
+                    <a href="{% url 'gallery_add' %}" class="btn btn-primary">+ Add</a>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <h3 class="card-title">Achievements</h3>
+                <div class="card-count">{{ achievement_count }}</div>
+                <div class="card-buttons">
+                    <a href="{% url 'achievement_list' %}" class="btn">View</a>
+                    <a href="{% url 'achievement_add' %}" class="btn btn-primary">+ Add</a>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <h3 class="card-title">Awards</h3>
+                <div class="card-count">{{ award_count }}</div>
+                <div class="card-buttons">
+                    <a href="{% url 'award_list' %}" class="btn">View</a>
+                    <a href="{% url 'award_add' %}" class="btn btn-primary">+ Add</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-access">
+            <h3>Quick Access</h3>
+            <div class="quick-buttons">
+                <a href="{% url 'cv_list' %}" class="quick-btn">📄 Manage CV</a>
+                <a href="{% url 'profile_edit' %}" class="quick-btn">👤 Edit Profile</a>
+                <a href="{% url 'gallery_list' %}" class="quick-btn">🖼 Gallery</a>
+                <a href="{% url 'achievement_list' %}" class="quick-btn">⭐ Achievements</a>
+                <a href="{% url 'award_list' %}" class="quick-btn">🏆 Awards</a>
+                <a href="{% url 'home' %}" class="quick-btn">🏠 View Site</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
