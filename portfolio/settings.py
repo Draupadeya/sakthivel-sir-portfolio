@@ -34,6 +34,8 @@ ALLOWED_HOSTS = [
     '*.vercel.app',
     'sakthivel-sir-portfolio.vercel.app',
     'phanindrakilambi.pythonanywhere.com',
+    '.onrender.com',
+    '*.onrender.com',
 ]
 
 
@@ -83,10 +85,27 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
+# Use PostgreSQL on production (Supabase), SQLite on development
+if config('DATABASE_URL', default=''):
+    # Production: Use PostgreSQL via Supabase
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    # Development: Use SQLite
+    DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'portfolio_db',#database name
+       'USER': 'postgres',
+       'PASSWORD': 'Phani2004(())',
+       'HOST': 'localhost',
+       'PORT': '5432',
     }
 }
 
