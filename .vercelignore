@@ -1,0 +1,15 @@
+*.pyc
+__pycache__/
+.git
+.env.local
+db.sqlite3
+populate_*.py
+setup_*.py
+check_setup.py
+process_image.py
+OVERVIEW.txt
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
