@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Use PostgreSQL on production (Supabase), SQLite on development
+# Use PostgreSQL on production (via DATABASE_URL), SQLite on development
 if config('DATABASE_URL', default=''):
-    # Production: Use PostgreSQL via Supabase
+    # Production: Use PostgreSQL via DATABASE_URL (Render + Supabase)
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.config(
@@ -97,15 +97,11 @@ if config('DATABASE_URL', default=''):
         )
     }
 else:
-    # Development: Use PostgreSQL locally
+    # Development/Fallback: Use SQLite
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'portfolio_db',
-            'USER': 'postgres',
-            'PASSWORD': 'Phani2004(())',
-            'HOST': 'localhost',
-            'PORT': '5432',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
