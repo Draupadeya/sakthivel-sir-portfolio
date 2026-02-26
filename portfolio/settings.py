@@ -97,17 +97,17 @@ if config('DATABASE_URL', default=''):
         )
     }
 else:
-    # Development: Use SQLite
+    # Development: Use PostgreSQL locally
     DATABASES = {
-    'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'portfolio_db',#database name
-       'USER': 'postgres',
-       'PASSWORD': 'Phani2004(())',
-       'HOST': 'localhost',
-       'PORT': '5432',
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'portfolio_db',
+            'USER': 'postgres',
+            'PASSWORD': 'Phani2004(())',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
     }
-}
 
 
 # Password validation
