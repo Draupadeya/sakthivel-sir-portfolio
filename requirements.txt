@@ -3,5 +3,5 @@ Pillow==11.2.1
 python-decouple==3.8
 gunicorn==21.2.0
 whitenoise==6.5.0
-psycopg[binary]==3.2.1
+psycopg[binary]==3.2.13
 dj-database-url==2.1.0
