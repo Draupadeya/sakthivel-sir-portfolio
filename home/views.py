@@ -18,8 +18,11 @@ def home(request):
     except:
         profile = None
     
-    # Increment view count
-    page_view = PageView.increment_view('home')
+    # Increment view count (with error handling)
+    try:
+        page_view = PageView.increment_view('home')
+    except:
+        page_view = None
     
     # Get CV statistics
     try:
