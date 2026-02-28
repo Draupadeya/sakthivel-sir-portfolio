@@ -169,7 +169,7 @@ if config('SUPABASE_URL', default=''):
             }
         },
         'staticfiles': {
-            'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
         }
     }
     MEDIA_URL = config('SUPABASE_URL') + '/storage/v1/object/public/portfolio/'
@@ -180,7 +180,7 @@ else:
             'BACKEND': 'django.core.files.storage.FileSystemStorage',
         },
         'staticfiles': {
-            'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
         }
     }
 
