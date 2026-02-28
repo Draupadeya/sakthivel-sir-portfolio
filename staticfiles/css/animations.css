@@ -1,0 +1,260 @@
+/* 
+   Advanced VR & Animation Effects
+   This file contains additional animations and effects for enhanced VR appearance
+*/
+
+/* Holographic text effect */
+@keyframes holograph {
+    0% {
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5), 
+                     0 0 20px rgba(0, 255, 65, 0.3),
+                     0 0 30px rgba(0, 255, 65, 0.2);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(0, 255, 65, 0.8),
+                     0 0 40px rgba(0, 255, 65, 0.5),
+                     0 0 60px rgba(0, 255, 65, 0.3);
+    }
+    100% {
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5),
+                     0 0 20px rgba(0, 255, 65, 0.3),
+                     0 0 30px rgba(0, 255, 65, 0.2);
+    }
+}
+
+/* Glitch effect */
+@keyframes glitch {
+    0% {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 45%, 0% 100%);
+    }
+    20% {
+        clip-path: polygon(0% 20%, 100% 0%, 100% 60%, 0% 100%);
+    }
+    40% {
+        clip-path: polygon(0% 0%, 100% 30%, 100% 100%, 0% 70%);
+    }
+    60% {
+        clip-path: polygon(0% 50%, 100% 0%, 100% 100%, 0% 50%);
+    }
+    80% {
+        clip-path: polygon(0% 0%, 100% 50%, 100% 80%, 0% 100%);
+    }
+    100% {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 45%, 0% 100%);
+    }
+}
+
+/* Neon glow effect */
+@keyframes neonGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 5px rgba(0, 255, 65, 0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.8));
+    }
+}
+
+/* Scan lines effect */
+@keyframes scanLines {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 10px;
+    }
+}
+
+/* Cyber pulse effect */
+@keyframes cyberPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(0, 255, 65, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 20px rgba(0, 255, 65, 0);
+    }
+}
+
+/* Matrix rain effect for background */
+@keyframes matrixRain {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+/* Floating effect */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Rotating border effect */
+@keyframes rotateBorder {
+    0% {
+        border-color: var(--primary-green);
+    }
+    25% {
+        border-color: rgba(0, 255, 65, 0.5);
+    }
+    50% {
+        border-color: rgba(0, 255, 65, 0.3);
+    }
+    75% {
+        border-color: rgba(0, 255, 65, 0.5);
+    }
+    100% {
+        border-color: var(--primary-green);
+    }
+}
+
+/* Corner accent animation */
+@keyframes cornerGlow {
+    0%, 100% {
+        box-shadow: 
+            -2px -2px 5px rgba(0, 255, 65, 0.4),
+            2px -2px 5px rgba(0, 255, 65, 0.4),
+            -2px 2px 5px rgba(0, 255, 65, 0.4),
+            2px 2px 5px rgba(0, 255, 65, 0.4);
+    }
+    50% {
+        box-shadow: 
+            -2px -2px 15px rgba(0, 255, 65, 0.8),
+            2px -2px 15px rgba(0, 255, 65, 0.8),
+            -2px 2px 15px rgba(0, 255, 65, 0.8),
+            2px 2px 15px rgba(0, 255, 65, 0.8);
+    }
+}
+
+/* Enhanced profile image VR effect */
+.profile-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 65, 0.05) 50%, transparent 70%);
+    border-radius: 20px;
+    pointer-events: none;
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%) translateY(-100%);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%);
+    }
+}
+
+/* Cyber grid overlay */
+.cyber-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(0deg, transparent 24%, rgba(0, 255, 65, 0.05) 25%, rgba(0, 255, 65, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 65, 0.05) 75%, rgba(0, 255, 65, 0.05) 76%, transparent 77%, transparent),
+        linear-gradient(90deg, transparent 24%, rgba(0, 255, 65, 0.05) 25%, rgba(0, 255, 65, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 65, 0.05) 75%, rgba(0, 255, 65, 0.05) 76%, transparent 77%, transparent);
+    background-size: 50px 50px;
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+/* VR sphere effect on cards */
+.vr-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.vr-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 255, 65, 0.1) 0%, transparent 70%);
+    animation: sphereShine 3s infinite;
+}
+
+@keyframes sphereShine {
+    0% {
+        transform: translate(-25%, -25%);
+    }
+    50% {
+        transform: translate(25%, 25%);
+    }
+    100% {
+        transform: translate(-25%, -25%);
+    }
+}
+
+/* Cyber wave effect */
+@keyframes cyberWave {
+    0%, 100% {
+        clip-path: polygon(
+            0% 50%, 1% 50%, 2% 49%, 3% 49%, 4% 48%, 5% 48%, 6% 47%, 7% 47%, 8% 46%, 9% 46%, 
+            10% 45%, 11% 45%, 12% 44%, 13% 44%, 14% 43%, 15% 43%, 16% 42%, 17% 42%, 18% 41%, 19% 41%, 
+            20% 40%, 21% 40%, 22% 39%, 23% 39%, 24% 38%, 25% 38%, 26% 37%, 27% 37%, 28% 36%, 29% 36%, 
+            30% 35%, 31% 35%, 32% 34%, 33% 34%, 34% 33%, 35% 33%, 36% 32%, 37% 32%, 38% 31%, 39% 31%, 
+            40% 30%, 41% 30%, 42% 29%, 43% 29%, 44% 28%, 45% 28%, 46% 27%, 47% 27%, 48% 26%, 49% 26%, 
+            50% 25%, 51% 26%, 52% 26%, 53% 27%, 54% 27%, 55% 28%, 56% 28%, 57% 29%, 58% 29%, 59% 30%, 
+            60% 30%, 61% 31%, 62% 31%, 63% 32%, 64% 32%, 65% 33%, 66% 33%, 67% 34%, 68% 34%, 69% 35%, 
+            70% 35%, 71% 36%, 72% 36%, 73% 37%, 74% 37%, 75% 38%, 76% 38%, 77% 39%, 78% 39%, 79% 40%, 
+            80% 40%, 81% 41%, 82% 41%, 83% 42%, 84% 42%, 85% 43%, 86% 43%, 87% 44%, 88% 44%, 89% 45%, 
+            90% 45%, 91% 46%, 92% 46%, 93% 47%, 94% 47%, 95% 48%, 96% 48%, 97% 49%, 98% 49%, 99% 50%, 100% 50%,
+            100% 100%, 0% 100%
+        );
+    }
+    50% {
+        clip-path: polygon(
+            0% 40%, 1% 40%, 2% 39%, 3% 39%, 4% 38%, 5% 38%, 6% 37%, 7% 37%, 8% 36%, 9% 36%, 
+            10% 35%, 11% 35%, 12% 34%, 13% 34%, 14% 33%, 15% 33%, 16% 32%, 17% 32%, 18% 31%, 19% 31%, 
+            20% 30%, 21% 30%, 22% 29%, 23% 29%, 24% 28%, 25% 28%, 26% 27%, 27% 27%, 28% 26%, 29% 26%, 
+            30% 25%, 31% 25%, 32% 24%, 33% 24%, 34% 23%, 35% 23%, 36% 22%, 37% 22%, 38% 21%, 39% 21%, 
+            40% 20%, 41% 20%, 42% 19%, 43% 19%, 44% 18%, 45% 18%, 46% 17%, 47% 17%, 48% 16%, 49% 16%, 
+            50% 15%, 51% 16%, 52% 16%, 53% 17%, 54% 17%, 55% 18%, 56% 18%, 57% 19%, 58% 19%, 59% 20%, 
+            60% 20%, 61% 21%, 62% 21%, 63% 22%, 64% 22%, 65% 23%, 66% 23%, 67% 24%, 68% 24%, 69% 25%, 
+            70% 25%, 71% 26%, 72% 26%, 73% 27%, 74% 27%, 75% 28%, 76% 28%, 77% 29%, 78% 29%, 79% 30%, 
+            80% 30%, 81% 31%, 82% 31%, 83% 32%, 84% 32%, 85% 33%, 86% 33%, 87% 34%, 88% 34%, 89% 35%, 
+            90% 35%, 91% 36%, 92% 36%, 93% 37%, 94% 37%, 95% 38%, 96% 38%, 97% 39%, 98% 39%, 99% 40%, 100% 40%,
+            100% 100%, 0% 100%
+        );
+    }
+}
+
+/* Apply animations to specific elements - uncomment to use */
+
+/* Uncomment to add holographic effect to titles */
+/* .section-title {
+    animation: holograph 2s ease-in-out infinite;
+} */
+
+/* Uncomment to add neon glow to buttons */
+/* .submit-btn {
+    animation: neonGlow 2s ease-in-out infinite;
+} */
+
+/* Uncomment to add corner glow to cards */
+/* .achievement-card, .award-item {
+    animation: cornerGlow 3s ease-in-out infinite;
+} */
+
+/* Uncomment to add floating effect to profile */
+/* .profile-image {
+    animation: float 3s ease-in-out infinite;
+} */

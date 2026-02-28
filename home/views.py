@@ -33,15 +33,24 @@ def home(request):
     return render(request, 'home.html', {'profile': profile, 'page_view': page_view, 'cv_stats': cv_stats})
 
 def achievements(request):
-    achievements = Achievement.objects.all()
+    try:
+        achievements = Achievement.objects.all()
+    except:
+        achievements = []
     return render(request, 'achievements.html', {'achievements': achievements})
 
 def gallery(request):
-    gallery_images = GalleryImage.objects.all()
+    try:
+        gallery_images = GalleryImage.objects.all()
+    except:
+        gallery_images = []
     return render(request, 'gallery.html', {'gallery_images': gallery_images})
 
 def awards(request):
-    awards = Award.objects.all()
+    try:
+        awards = Award.objects.all()
+    except:
+        awards = []
     return render(request, 'awards.html', {'awards': awards})
 
 def contact(request):
