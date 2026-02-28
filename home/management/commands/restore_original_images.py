@@ -3,16 +3,21 @@ from home.models import Award, GalleryImage
 
 
 class Command(BaseCommand):
-    help = 'Restore original award and gallery images from Supabase Storage'
+    help = 'Restore original award and gallery images (only if database is empty)'
 
     def handle(self, *args, **options):
-        """Restore original awards and gallery images"""
+        """Restore original images only on first deployment when DB is empty"""
         
-        # Clear existing records
-        Award.objects.all().delete()
-        GalleryImage.objects.all().delete()
+        # Check if images already exist
+        if Award.objects.exists() or GalleryImage.objects.exists():
+            self.stdout.write(
+                self.style.WARNING('Images already exist - skipping restore (your new uploads are safe)')
+            )
+            return
         
-        self.stdout.write(self.style.WARNING('Cleared existing records'))
+        self.stdout.write(
+            self.style.WARNING('Database empty - restoring original images...')
+        )
         
         # Restore Awards
         award_data = [

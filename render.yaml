@@ -7,5 +7,5 @@ services:
       pip install --upgrade pip
       pip install -r requirements.txt
       python manage.py collectstatic --noinput || true
-    startCommand: sh -c 'python manage.py migrate && python manage.py ensure_s3_bucket && python manage.py restore_original_images && python manage.py populate_cv_data && gunicorn portfolio.wsgi:application'
+    startCommand: sh -c 'python manage.py migrate && python manage.py ensure_s3_bucket && python manage.py restore_original_images && python manage.py populate_all_data && gunicorn portfolio.wsgi:application'
 
