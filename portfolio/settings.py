@@ -145,8 +145,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise configuration
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# WhiteNoise configuration - handled in STORAGES below
 
 # Media files (User uploads)
 # https://docs.djangoproject.com/en/5.2/howto/manage-files/
@@ -168,14 +167,20 @@ if config('SUPABASE_URL', default=''):
                 's3_use_ssl': True,
                 'default_acl': 'public-read',
             }
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
         }
     }
     MEDIA_URL = config('SUPABASE_URL') + '/storage/v1/object/public/portfolio/'
 else:
-    # Local development: Use default file storage
+    # Local development: Use filesystem storage
     STORAGES = {
         'default': {
             'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
         }
     }
 
