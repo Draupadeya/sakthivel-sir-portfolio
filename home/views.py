@@ -32,21 +32,21 @@ def home(request):
 
 def achievements(request):
     try:
-        achievements = Achievement.objects.all()
+        achievements = list(Achievement.objects.all())
     except:
         achievements = []
     return render(request, 'achievements.html', {'achievements': achievements})
 
 def gallery(request):
     try:
-        gallery_images = GalleryImage.objects.all()
+        gallery_images = list(GalleryImage.objects.all())
     except:
         gallery_images = []
     return render(request, 'gallery.html', {'gallery_images': gallery_images})
 
 def awards(request):
     try:
-        awards = Award.objects.all()
+        awards = list(Award.objects.all())
     except:
         awards = []
     return render(request, 'awards.html', {'awards': awards})
@@ -56,7 +56,7 @@ def contact(request):
 
 def cv(request):
     try:
-        cv_files = CVContent.objects.all().order_by('-created_at')
+        cv_files = list(CVContent.objects.all().order_by('-created_at'))
     except:
         cv_files = []
     
@@ -66,37 +66,37 @@ def cv(request):
         cv_stats = None
     
     try:
-        cv_education = CVEducation.objects.all()
+        cv_education = list(CVEducation.objects.all())
     except:
         cv_education = []
     
     try:
-        cv_current_position = CVCurrentPosition.objects.all()
+        cv_current_position = list(CVCurrentPosition.objects.all())
     except:
         cv_current_position = []
     
     try:
-        cv_experience = CVExperience.objects.all()
+        cv_experience = list(CVExperience.objects.all())
     except:
         cv_experience = []
     
     try:
-        cv_memberships = CVProfessionalMembership.objects.all()
+        cv_memberships = list(CVProfessionalMembership.objects.all())
     except:
         cv_memberships = []
     
     try:
-        cv_publications = CVPublication.objects.all()
+        cv_publications = list(CVPublication.objects.all())
     except:
         cv_publications = []
     
     try:
-        cv_patents = CVPatent.objects.all()
+        cv_patents = list(CVPatent.objects.all())
     except:
         cv_patents = []
     
     try:
-        cv_personal_details = CVPersonalDetail.objects.all()
+        cv_personal_details = list(CVPersonalDetail.objects.all())
     except:
         cv_personal_details = []
     
@@ -175,7 +175,7 @@ def gallery_list(request):
         return redirect('home')
     
     try:
-        gallery_images = GalleryImage.objects.all()
+        gallery_images = list(GalleryImage.objects.all())
     except:
         gallery_images = []
     return render(request, 'gallery_list.html', {'gallery_images': gallery_images})
@@ -231,7 +231,7 @@ def achievement_list(request):
         return redirect('home')
     
     try:
-        achievements = Achievement.objects.all()
+        achievements = list(Achievement.objects.all())
     except:
         achievements = []
     return render(request, 'achievement_list.html', {'achievements': achievements})
@@ -287,7 +287,7 @@ def award_list(request):
         return redirect('home')
     
     try:
-        awards = Award.objects.all()
+        awards = list(Award.objects.all())
     except:
         awards = []
     return render(request, 'award_list.html', {'awards': awards})
@@ -343,7 +343,7 @@ def cv_list(request):
         return redirect('home')
     
     try:
-        cv_files = CVContent.objects.all()
+        cv_files = list(CVContent.objects.all())
     except:
         cv_files = []
     return render(request, 'cv_list.html', {'cv_files': cv_files})
