@@ -156,34 +156,21 @@ if config('SUPABASE_URL', default=''):
     STORAGES = {
         'default': {
             'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
-            'OPTIONS': {
-                'access_key': config('AWS_ACCESS_KEY_ID'),
-                'secret_key': config('AWS_SECRET_ACCESS_KEY'),
-                'storage_bucket_name': config('AWS_STORAGE_BUCKET_NAME', 'portfolio'),
-                's3_region_name': 'auto',
-                's3_endpoint_url': config('SUPABASE_URL'),
-                's3_use_ssl': True,
-                'default_acl': 'public-read',
-                'location': 'media',
-                's3_custom_domain': 'gwpzepnpdzqsgphnjhrv.supabase.co/storage/v1/object/public/portfolio',
-            }
         },
         'staticfiles': {
             'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
         }
     }
-    # Build AWS settings for proper S3 URL generation
-    SUPABASE_PROJECT_ID = 'gwpzepnpdzqsgphnjhrv'
-    AWS_S3_ENDPOINT_URL = config('SUPABASE_URL')
+    # AWS/S3 settings for Supabase Storage (django-storages reads from Django settings)
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', 'portfolio')
+    AWS_S3_ENDPOINT_URL = config('SUPABASE_URL')
     AWS_S3_REGION_NAME = 'auto'
     AWS_S3_USE_SSL = True
     AWS_DEFAULT_ACL = 'public-read'
-    # Custom domain for Supabase - generates URLs like: https://<project>.supabase.co/storage/v1/object/public/<bucket>/<file>
     AWS_S3_CUSTOM_DOMAIN = 'gwpzepnpdzqsgphnjhrv.supabase.co/storage/v1/object/public/portfolio'
-    MEDIA_URL = f'https://{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/portfolio/'
+    MEDIA_URL = 'https://gwpzepnpdzqsgphnjhrv.supabase.co/storage/v1/object/public/portfolio/'
 else:
     # Local development: Use filesystem storage
     STORAGES = {
