@@ -173,9 +173,9 @@ else:
             'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
         }
     }
-    # AWS/S3 settings for Supabase Storage (django-storages reads from Django settings)
-    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default='')
-    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default='')
+    # AWS/S3 settings for Supabase Storage (hardcoded for production)
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', 'ce4b91915813ab5de12927dbaca07517')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', 'dc7d361380fb8289bb814303340a7c340994666abe2e4c29cacea2941e807f4b')
     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', 'portfolio')
     AWS_S3_ENDPOINT_URL = config('SUPABASE_URL', 'https://gwpzepnpdzqsgphnjhrv.storage.supabase.co/storage/v1/s3')
     AWS_S3_REGION_NAME = 'auto'
