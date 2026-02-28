@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
     'home',
 ]
 
@@ -152,6 +153,31 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Supabase Storage Configuration
+if config('SUPABASE_URL', default=''):
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+            'OPTIONS': {
+                'access_key': config('AWS_ACCESS_KEY_ID'),
+                'secret_key': config('AWS_SECRET_ACCESS_KEY'),
+                'storage_bucket_name': config('AWS_STORAGE_BUCKET_NAME', 'portfolio'),
+                's3_region_name': 'asia-south-1',
+                's3_endpoint_url': config('SUPABASE_URL'),
+                's3_use_ssl': True,
+                'default_acl': 'public-read',
+            }
+        }
+    }
+    MEDIA_URL = config('SUPABASE_URL') + '/storage/v1/object/public/portfolio/'
+else:
+    # Local development: Use default file storage
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        }
+    }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
