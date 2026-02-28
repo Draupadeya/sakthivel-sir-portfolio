@@ -165,10 +165,7 @@ def admin_dashboard(request):
     
     context = {
         'gallery_count': gallery_count,
-    try:
-        gallery_images = GalleryImage.objects.all()
-    except:
-        gallery_images = []
+        'achievement_count': achievement_count,
         'award_count': award_count,
     }
     return render(request, 'admin_dashboard.html', context)
@@ -179,7 +176,10 @@ def gallery_list(request):
     if not request.user.is_staff:
         return redirect('home')
     
-    gallery_images = GalleryImage.objects.all()
+    try:
+        gallery_images = GalleryImage.objects.all()
+    except:
+        gallery_images = []
     return render(request, 'gallery_list.html', {'gallery_images': gallery_images})
 
 @login_required(login_url='admin_login')
