@@ -151,27 +151,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/5.2/howto/manage-files/
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Supabase Storage Configuration
-if config('SUPABASE_URL', default=''):
-    STORAGES = {
-        'default': {
-            'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
-        },
-        'staticfiles': {
-            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
-        }
-    }
-    # AWS/S3 settings for Supabase Storage (django-storages reads from Django settings)
-    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', 'portfolio')
-    AWS_S3_ENDPOINT_URL = config('SUPABASE_URL')
-    AWS_S3_REGION_NAME = 'auto'
-    AWS_S3_USE_SSL = True
-    AWS_DEFAULT_ACL = 'public-read'
-    AWS_S3_CUSTOM_DOMAIN = 'gwpzepnpdzqsgphnjhrv.supabase.co/storage/v1/object/public/portfolio'
-    MEDIA_URL = 'https://gwpzepnpdzqsgphnjhrv.supabase.co/storage/v1/object/public/portfolio/'
-else:
+# Supabase Storage Configuration - Always use S3 on production
+if config('DEBUG', default=False, cast=bool):
     # Local development: Use filesystem storage
     STORAGES = {
         'default': {
@@ -182,6 +163,26 @@ else:
         }
     }
     MEDIA_URL = 'media/'
+else:
+    # Production (Render/hosting): Always use Supabase S3
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+        },
+        'staticfiles': {
+            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+        }
+    }
+    # AWS/S3 settings for Supabase Storage (django-storages reads from Django settings)
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default='')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default='')
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', 'portfolio')
+    AWS_S3_ENDPOINT_URL = config('SUPABASE_URL', 'https://gwpzepnpdzqsgphnjhrv.storage.supabase.co/storage/v1/s3')
+    AWS_S3_REGION_NAME = 'auto'
+    AWS_S3_USE_SSL = True
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_CUSTOM_DOMAIN = 'gwpzepnpdzqsgphnjhrv.supabase.co/storage/v1/object/public/portfolio'
+    MEDIA_URL = 'https://gwpzepnpdzqsgphnjhrv.supabase.co/storage/v1/object/public/portfolio/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
