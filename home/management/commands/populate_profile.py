@@ -7,11 +7,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not ProfileContent.objects.exists():
+            career_vision = """I strive to build a distinguished career in a leading engineering institution, driving cutting-edge research and pioneering innovative biomedical technologies. My vision is to bridge engineering and healthcare, developing transformative solutions that enhance lives. With a strong commitment to mentorship, interdisciplinary collaboration, and translational research, I aim to foster scientific innovation and global impact in biomedical engineering."""
+            
             ProfileContent.objects.create(
-                name='Dr. S. Sakthivel',
-                title='Associate Professor, BME Department',
-                department='Biomedical Engineering',
-                bio='Passionate educator and researcher in Biomedical Engineering with expertise in sensors and data acquisition systems'
+                name='Dr. S. Sakthivel, B.E., M.TECH (BME), Ph.D., MBA',
+                title='Associate Professor',
+                department='Department of Biomedical Engineering',
+                bio=career_vision
             )
             self.stdout.write(self.style.SUCCESS('✓ Created profile'))
         else:
