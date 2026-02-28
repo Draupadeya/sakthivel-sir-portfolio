@@ -18,13 +18,11 @@ def home(request):
     except:
         profile = None
     
-    # Increment view count (with error handling)
     try:
         page_view = PageView.increment_view('home')
     except:
         page_view = None
     
-    # Get CV statistics
     try:
         cv_stats = CVStatistics.objects.first()
     except:
@@ -229,13 +227,13 @@ def gallery_delete(request, pk):
 # Achievement Management
 @login_required(login_url='admin_login')
 def achievement_list(request):
+    if not request.user.is_staff:
+        return redirect('home')
+    
     try:
         achievements = Achievement.objects.all()
     except:
         achievements = []
-        return redirect('home')
-    
-    achievements = Achievement.objects.all()
     return render(request, 'achievement_list.html', {'achievements': achievements})
 
 @login_required(login_url='admin_login')
@@ -282,16 +280,16 @@ def achievement_delete(request, pk):
     messages.success(request, 'Achievement deleted successfully!')
     return redirect('achievement_list')
 
-# Awtry:
-        awards = Award.objects.all()
-    except:
-        awards = []
+# Award Management
 @login_required(login_url='admin_login')
 def award_list(request):
     if not request.user.is_staff:
         return redirect('home')
     
-    awards = Award.objects.all()
+    try:
+        awards = Award.objects.all()
+    except:
+        awards = []
     return render(request, 'award_list.html', {'awards': awards})
 
 @login_required(login_url='admin_login')
@@ -338,16 +336,16 @@ def award_delete(request, pk):
     messages.success(request, 'Award deleted successfully!')
     return redirect('award_list')
 
-# CVtry:
-        cv_files = CVContent.objects.all()
-    except:
-        cv_files = []
+# CV Management
 @login_required(login_url='admin_login')
 def cv_list(request):
     if not request.user.is_staff:
         return redirect('home')
     
-    cv_files = CVContent.objects.all()
+    try:
+        cv_files = CVContent.objects.all()
+    except:
+        cv_files = []
     return render(request, 'cv_list.html', {'cv_files': cv_files})
 
 @login_required(login_url='admin_login')
