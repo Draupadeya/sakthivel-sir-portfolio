@@ -57,18 +57,50 @@ def contact(request):
     return render(request, 'contact.html')
 
 def cv(request):
-    cv_files = CVContent.objects.all().order_by('-created_at')
+    try:
+        cv_files = CVContent.objects.all().order_by('-created_at')
+    except:
+        cv_files = []
+    
     try:
         cv_stats = CVStatistics.objects.first()
     except:
         cv_stats = None
-    cv_education = CVEducation.objects.all()
-    cv_current_position = CVCurrentPosition.objects.all()
-    cv_experience = CVExperience.objects.all()
-    cv_memberships = CVProfessionalMembership.objects.all()
-    cv_publications = CVPublication.objects.all()
-    cv_patents = CVPatent.objects.all()
-    cv_personal_details = CVPersonalDetail.objects.all()
+    
+    try:
+        cv_education = CVEducation.objects.all()
+    except:
+        cv_education = []
+    
+    try:
+        cv_current_position = CVCurrentPosition.objects.all()
+    except:
+        cv_current_position = []
+    
+    try:
+        cv_experience = CVExperience.objects.all()
+    except:
+        cv_experience = []
+    
+    try:
+        cv_memberships = CVProfessionalMembership.objects.all()
+    except:
+        cv_memberships = []
+    
+    try:
+        cv_publications = CVPublication.objects.all()
+    except:
+        cv_publications = []
+    
+    try:
+        cv_patents = CVPatent.objects.all()
+    except:
+        cv_patents = []
+    
+    try:
+        cv_personal_details = CVPersonalDetail.objects.all()
+    except:
+        cv_personal_details = []
     
     return render(request, 'cv.html', {
         'cv_files': cv_files,
@@ -116,13 +148,27 @@ def admin_dashboard(request):
         messages.error(request, 'Access denied.')
         return redirect('home')
     
-    gallery_count = GalleryImage.objects.count()
-    achievement_count = Achievement.objects.count()
-    award_count = Award.objects.count()
+    try:
+        gallery_count = GalleryImage.objects.count()
+    except:
+        gallery_count = 0
+    
+    try:
+        achievement_count = Achievement.objects.count()
+    except:
+        achievement_count = 0
+    
+    try:
+        award_count = Award.objects.count()
+    except:
+        award_count = 0
     
     context = {
         'gallery_count': gallery_count,
-        'achievement_count': achievement_count,
+    try:
+        gallery_images = GalleryImage.objects.all()
+    except:
+        gallery_images = []
         'award_count': award_count,
     }
     return render(request, 'admin_dashboard.html', context)
@@ -183,7 +229,10 @@ def gallery_delete(request, pk):
 # Achievement Management
 @login_required(login_url='admin_login')
 def achievement_list(request):
-    if not request.user.is_staff:
+    try:
+        achievements = Achievement.objects.all()
+    except:
+        achievements = []
         return redirect('home')
     
     achievements = Achievement.objects.all()
@@ -233,7 +282,10 @@ def achievement_delete(request, pk):
     messages.success(request, 'Achievement deleted successfully!')
     return redirect('achievement_list')
 
-# Award Management
+# Awtry:
+        awards = Award.objects.all()
+    except:
+        awards = []
 @login_required(login_url='admin_login')
 def award_list(request):
     if not request.user.is_staff:
@@ -286,7 +338,10 @@ def award_delete(request, pk):
     messages.success(request, 'Award deleted successfully!')
     return redirect('award_list')
 
-# CV Management
+# CVtry:
+        cv_files = CVContent.objects.all()
+    except:
+        cv_files = []
 @login_required(login_url='admin_login')
 def cv_list(request):
     if not request.user.is_staff:
