@@ -149,8 +149,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Media files (User uploads)
 # https://docs.djangoproject.com/en/5.2/howto/manage-files/
-
-MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Supabase Storage Configuration
@@ -162,17 +160,27 @@ if config('SUPABASE_URL', default=''):
                 'access_key': config('AWS_ACCESS_KEY_ID'),
                 'secret_key': config('AWS_SECRET_ACCESS_KEY'),
                 'storage_bucket_name': config('AWS_STORAGE_BUCKET_NAME', 'portfolio'),
-                's3_region_name': 'asia-south-1',
+                's3_region_name': 'auto',
                 's3_endpoint_url': config('SUPABASE_URL'),
                 's3_use_ssl': True,
                 'default_acl': 'public-read',
+                'location': 'media',
             }
         },
         'staticfiles': {
             'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
         }
     }
-    MEDIA_URL = config('SUPABASE_URL') + '/storage/v1/object/public/portfolio/'
+    # Build AWS settings for proper S3 URL generation
+    AWS_S3_ENDPOINT_URL = config('SUPABASE_URL')
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', 'portfolio')
+    AWS_S3_REGION_NAME = 'auto'
+    AWS_S3_USE_SSL = True
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_CUSTOM_DOMAIN = None  # Let boto3 handle domain generation
+    MEDIA_URL = '/media/'  # This will be constructed by S3Boto3Storage
 else:
     # Local development: Use filesystem storage
     STORAGES = {
@@ -183,6 +191,7 @@ else:
             'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
         }
     }
+    MEDIA_URL = 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
